@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="danger">#B50707</color>
+    <color name="warning">#FFC107</color>
+    <color name="good">#4CAF50</color>
+    <color name="disable">#658166</color>
+    <color name="button">#4EB352</color>
+    <color name="plusMoneyKc">#41D347</color>
+    <color name="plusMoney">#75CF79</color>
+    <color name="minusMoneyKc">#D34141</color>
+    <color name="minusMoney">#CF7575</color>
+    <color name="zeroMoneyKc">#D3D141</color>
+    <color name="zeroMoney">#CFCB75</color>
+</resources>
