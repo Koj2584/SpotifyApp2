@@ -2,10 +2,12 @@ package com.vomelaj.spotifycash2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -77,14 +79,37 @@ public class Platby extends AppCompatActivity {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            new Thread(()->{
-                                Payment p = db.paymentDao().getPaymentById(Integer.parseInt(((TextView)((View)view.getParent()).findViewById(R.id.id)).getText().toString()));
-                                Dluznik d = db.dluznikDao().getDluznikById(p.dluznikId);
-                                d.konto -= p.amount;
-                                db.dluznikDao().update(d);
-                                db.paymentDao().delete(p);
-                                runOnUiThread(() -> onResume());
-                            }).start();
+                            Dialog dialog = new Dialog(Platby.this);
+                            dialog.setContentView(R.layout.dialog_smazat_platbu);
+                            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                            dialog.setCancelable(false);
+                            dialog.show();
+
+                            Button ano = dialog.findViewById(R.id.button3);
+                            Button ne = dialog.findViewById(R.id.button2);
+
+                            ano.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view2) {
+                                    new Thread(()->{
+                                        Payment p = db.paymentDao().getPaymentById(Integer.parseInt(((TextView)((View)view.getParent()).findViewById(R.id.id)).getText().toString()));
+                                        Dluznik d = db.dluznikDao().getDluznikById(p.dluznikId);
+                                        d.konto -= p.amount;
+                                        db.dluznikDao().update(d);
+                                        db.paymentDao().delete(p);
+                                        runOnUiThread(() -> onResume());
+                                    }).start();
+
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            ne.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                }
+                            });
                         }
                     });
 
